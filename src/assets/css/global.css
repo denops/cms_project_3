@@ -1,0 +1,21 @@
+body{
+    margin:0;
+}
+.imgSlides{
+    margin: 0;
+    padding: 0;
+}
+.news-content img{
+    width: 100%;
+}
+.my-gallery img{
+    width: 100%;
+}
+.tmpl{
+    margin: 75px 0;
+}
+.mint-tabbar{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
