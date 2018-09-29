@@ -10,17 +10,34 @@ import './assets/css/font-awesome.css'
 import Axios from 'axios'
 import MyUl from '@/components/Common/MyUl'
 import MyLi from '@/components/Common/MyLi'
+import Comment from '@/components/Common/Comment'
 import NavBar from '@/components/Common/NavBar'
 import VuePreview from 'vue-preview'
+import Moment from 'moment'
 Vue.use(VuePreview)
-
+Vue.use(Moment)
+Moment.locale('zh-cn')
 Vue.component(MyUl.name, MyUl)
 Vue.component(MyLi.name, MyLi)
 Vue.component(NavBar.name, NavBar)
+Vue.component(Comment.name, Comment)
 Axios.defaults.baseURL = 'https://www.sinya.online/api/'
 Vue.prototype.$axios = Axios
 Vue.use(MintUI)
 Vue.config.productionTip = false
+Axios.interceptors.request.use(function (config) {
+  MintUI.Indicator.open({
+    text: '玩命加载中...'
+  })
+  return config
+})
+Axios.interceptors.response.use(function (response) {
+  MintUI.Indicator.close()
+  return response
+})
+Vue.filter('relativeTime', function (previousTime) {
+  return Moment(previousTime).fromNow()
+})
 
 /* eslint-disable no-new */
 new Vue({

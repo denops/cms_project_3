@@ -1,22 +1,19 @@
 <template>
   <div class="tmpl">
     <nav-bar title="图文分享" ref="child"/>
-    <div>
-        <ul>
-            <li v-for=" c in categorys" :key="c.id">
-                <a @click="getCategory(c.id)" href="javascript:;">{{c.title}}</a>
-            </li>
-        </ul>
+    <div class="cateBox">
+        <a v-for=" c in categorys" :key="c.id" @click="getCategory(c.id)" href="javascript:;">{{c.title}}</a>
     </div>
     <div class="photo-list">
         <ul>
             <li v-for="img in imgs" :key="img.id">
                 <router-link :to="{name:'photo.detail',query:{id:img.id}}">
                     <img v-lazy="img.img_url" alt=""/>
-                    <p>
+                    <div>
+                        <div class="zmark"></div>
                         <h4>{{img.title}}</h4>
                         <span>{{img.zhaiyao}}</span>
-                    </p>
+                    </div>
                </router-link>
             </li>
         </ul>
@@ -50,7 +47,6 @@ export default {
   },
   methods:{
       loadImgsRounter (id) {
-          console.log(id)
             this.$router.push({
                 name: 'photo.list',
                 params: { id: id }
@@ -86,9 +82,29 @@ image[lazy=loading] {
     background-image: url(../../assets/img/iconfont.png);
     background-size: 100% 100%;
 }
-ul li{list-style: none;}
-ul li:after{display: block;content: '';clear: both;}
-ul li a{color:#323232;text-decoration: none;font-size: 14px;}
-ul li a img{width: 20%;display: inline;}
-ul li a>div{float: right;width: 80%;}
+.photo-list ul{padding:0; }
+.photo-list ul li{list-style: none;position: relative;margin-bottom: 10px}
+.photo-list ul li a{color:#ffffff;text-decoration: none;font-size: 14px;}
+.photo-list ul li a img{width: 100%;display: inline;}
+.photo-list ul li a>div{width: 100%;position: absolute;bottom: 0}
+.photo-list ul li a .zmark{width: 100%;height:100%;position: absolute;bottom: 0;background: #000000;opacity: .3;}
+.cateBox{
+    height: 30px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.cateBox a{
+    font-size: 1.1rem;
+    display: inline-block;
+    line-height: 20px;
+    background: #F4F8FB;
+    color: #7D7D7D;
+    padding: 3px 9px;
+    margin: 0 5px 10px 0;
+    text-decoration: none;
+}
+.cateType li a{text-decoration: none;}
 </style>

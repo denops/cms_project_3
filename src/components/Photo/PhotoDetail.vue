@@ -16,6 +16,8 @@
     <div>
         <p v-html="info.content"></p>
     </div>
+    <comment :cid="$route.query.id"/>
+
   </div>
 </template>
 <script>
@@ -46,7 +48,13 @@ export default {
     .catch( err => console.log("获取图片失败",err))
   },
   methods:{
-     
+       loadImgsRounter (id) {
+           console.log("detail",id)
+            this.$router.push({
+                name: 'photo.detail',
+                params: { id: id }
+            });
+      },
   }
 }
 </script>

@@ -27,7 +27,7 @@ export default {
       grids: [
            {className:'cms-news',title:'新闻资讯',router:{name:'news.list'}},
            {className:'cms-news',title:'图片分享',router:{name:'photo.list',params:{categoryId:0}}},
-           {className:'cms-news',title:'商品展示',router:{name:'news.list'}},
+           {className:'cms-news',title:'商品展示',router:{name:'goods.list'},params:{id:1}},
            {className:'cms-news',title:'留言反馈',router:{name:'news.list'}},
            {className:'cms-news',title:'搜索资讯',router:{name:'news.list'}},
            {className:'cms-news',title:'联系我们',router:{name:'news.list'}},

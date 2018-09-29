@@ -12,6 +12,18 @@
     Axios.defaults.baseURL = 'https://www.sinya.online/api/'
     Vue.prototype.$axios = Axios  
     Vue.use(MintUI) 
+    
+    //请求拦截器：1,请求之前loading2,响应后关闭loading
+    Axios.interceptors.request.use(function (config) {
+        MintUI.Indicator.open({
+            text: '玩命加载中...'
+        })
+        return config
+    })
+    Axios.interceptors.response.use(function (response) {
+        MintUI.Indicator.close()
+        return response
+    })
 
 
 //将axios和mint-ui2.0（饿了么开源VUE-UI库）下载
