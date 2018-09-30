@@ -1,11 +1,6 @@
 <template>
   <div>
-    <mt-swipe :auto="4000">
-      <mt-swipe-item v-for="(img,index) in imgs" :key="index">
-        <img :src="img.img" alt="index">
-      </mt-swipe-item>
-    </mt-swipe>
-    
+    <my-swipe url="getlunbo" />
     <div>
       <my-ul>
         <my-li v-for="(grid,index) in grids" :key="index">
@@ -36,21 +31,13 @@ export default {
   },
   //created 创建时加载banner图片 可以操作数据
   created () {
-    this.$axios.get('getlunbo')
-    .then(res=>{
-        this.imgs = res.data.message;
-        console.log(res.data.message)
-    })
-    .catch(err=> console.log('轮播图获取失败',err))
+    
   }
 }
 </script>
 <style scoped>
   .mint-swipe{
     height: 200px;
-  }
-  img{
-    width: 100%;
   }
  a{
    text-decoration: none;

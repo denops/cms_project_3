@@ -1,12 +1,12 @@
 <template>
     <div class="tmpl">
         <nav-bar title="商品列表" ref="child"/>
-        <mt-loadmore :auto-fill="false" :bottom-method="loadBottom" :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore">
+        <mt-loadmore :auto-fill="false" :bottom-method="loadBottom" ref="loadmore" :bottom-all-loaded="isAllLoaded">
             <ul>
                 <li v-for="goods in goodsList" :key="goods.id">
-                    <a href="">
+                    <router-link :to="{ name:'goods.detail',params: { id:goods.id } }">
                         <img :src="goods.img_url" alt="">
-                        <div v-text="goods.title"></div>
+                        <div>{{ goods.title | convertstr(25)}}</div>
                         <div class="desc">
                             <div class="sell">
                                 <span>${{goods.sell_price}}</span>
@@ -17,13 +17,10 @@
                                 <span>剩{{goods.stock_quantity}}件</span>
                             </div>
                         </div>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
-            <div slot="top" class="mint-loadmore-top">
-                <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }">↓</span>
-                <span v-show="topStatus === 'loading'">Loading...</span>
-            </div>
+           
         </mt-loadmore>
     </div>
 </template>
@@ -31,39 +28,58 @@
   export default {
     data() {
       return {
-        topStatus: '',
-        goodsList:[]
+        page: 1,
+        goodsList:[],
+        isAllLoaded:false
       };
     },
     created() {
         let page = this.$route.query.id || '1';
+        this.loadBypage(this.page);
+    },
+    methods: {
+      loadBypage(page) {
         this.$axios.get('getgoods?pageindex=' + page)
         .then(res =>{
             this.goodsList = res.data.message;
+             this.page++;
         })
         .catch(err =>console.log('商品列表获取失败',err))
-    },
-    methods: {
-      handleTopChange(status) {
-        this.topStatus = status;
       },
-      loadTop() {
-          this.$refs.loadmore.onTopLoaded();
+      concatBypage(page) {
+        this.$axios.get('getgoods?pageindex=' + page)
+        .then(res =>{
+            if (res.data.message.length === 0) {
+                this.$toast('没有数据了')
+                this.isAllLoaded = true;
+            }
+            this.goodsList = this.goodsList.concat( res.data.message );
+             this.$refs.loadmore.onBottomLoaded();
+             this.page++;
+        })
+        .catch(err =>console.log('商品列表获取失败',err))
       },
       loadBottom() {
-          console.log("上来加载");
-          this.$refs.loadmore.onBottomLoaded();
+          this.concatBypage(this.page)
       }
     }
   };
 </script>
 <style scoped>
+ul{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 ul li{
     float: left;
-    width: 50%;
+    width: 47%;
     list-style: none;
     border: 1px solid #cccccc;
     box-sizing: border-box;
+    margin-bottom: 2%;
+    margin-left: 2%;
 }
 ul li img{
     width: 100%;

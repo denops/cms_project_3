@@ -12,6 +12,7 @@ import MyUl from '@/components/Common/MyUl'
 import MyLi from '@/components/Common/MyLi'
 import Comment from '@/components/Common/Comment'
 import NavBar from '@/components/Common/NavBar'
+import MySwipe from '@/components/Common/MySwipe'
 import VuePreview from 'vue-preview'
 import Moment from 'moment'
 Vue.use(VuePreview)
@@ -19,6 +20,7 @@ Vue.use(Moment)
 Moment.locale('zh-cn')
 Vue.component(MyUl.name, MyUl)
 Vue.component(MyLi.name, MyLi)
+Vue.component(MySwipe.name, MySwipe)
 Vue.component(NavBar.name, NavBar)
 Vue.component(Comment.name, Comment)
 Axios.defaults.baseURL = 'https://www.sinya.online/api/'
@@ -37,6 +39,9 @@ Axios.interceptors.response.use(function (response) {
 })
 Vue.filter('relativeTime', function (previousTime) {
   return Moment(previousTime).fromNow()
+})
+Vue.filter('convertstr', function (str, count) {
+  return str.substring(0, count) + '...'
 })
 
 /* eslint-disable no-new */
