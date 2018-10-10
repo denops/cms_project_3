@@ -36,9 +36,7 @@ export default {
 }
 </script>
 <style scoped>
-  .mint-swipe{
-    height: 200px;
-  }
+  
  a{
    text-decoration: none;
    color: #332323;
